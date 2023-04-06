@@ -46,4 +46,4 @@ cache:
   hazelCastPort: 5701
   hazelCastClusterName: dev
   expirations:
-    person: 5s
+    person: 5m

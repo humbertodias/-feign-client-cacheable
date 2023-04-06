@@ -22,7 +22,7 @@ public class PersonService {
         this.personClient = personClient;
     }
 
-    public List<PersonDto> getPersonSync(int amount, int delay, String cacheManager) {
+    public List<PersonDto> getPerson(int amount, int delay, String cacheManager) {
         return personClient.getPerson(amount, delay, cacheManager);
     }
 

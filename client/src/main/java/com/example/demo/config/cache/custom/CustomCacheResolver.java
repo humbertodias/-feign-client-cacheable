@@ -1,6 +1,6 @@
 package com.example.demo.config.cache.custom;
 
-import com.example.demo.config.CacheManagerType;
+import com.example.demo.config.cache.CacheManagerType;
 import com.example.demo.config.cache.CacheProperties;
 import com.hazelcast.spring.cache.HazelcastCacheManager;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,6 @@ import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.cache.interceptor.CacheOperationInvocationContext;
 import org.springframework.cache.interceptor.CacheResolver;
-import org.springframework.cache.jcache.JCacheCacheManager;
 import org.springframework.cache.support.CompositeCacheManager;
 import org.springframework.cache.support.NoOpCacheManager;
 import org.springframework.cache.support.SimpleCacheManager;
@@ -29,7 +28,6 @@ public class CustomCacheResolver implements CacheResolver {
     private final SimpleCacheManager simpleCacheManager;
     private final CompositeCacheManager compositeCacheManager;
     private final ConcurrentMapCacheManager concurrentMapCacheManager;
-    private final JCacheCacheManager jCacheCacheManager;
     private final NoOpCacheManager noCacheManager;
 
     public CustomCacheResolver(CacheProperties cacheProperties,
@@ -39,7 +37,6 @@ public class CustomCacheResolver implements CacheResolver {
                                SimpleCacheManager simpleCacheManager,
                                CompositeCacheManager compositeCacheManager,
                                ConcurrentMapCacheManager concurrentMapCacheManager,
-                               JCacheCacheManager jCacheCacheManager,
                                NoOpCacheManager noCacheManager) {
         this.cacheProperties = cacheProperties;
         this.redisCacheManager = redisCacheManager;
@@ -48,7 +45,6 @@ public class CustomCacheResolver implements CacheResolver {
         this.simpleCacheManager = simpleCacheManager;
         this.compositeCacheManager = compositeCacheManager;
         this.concurrentMapCacheManager = concurrentMapCacheManager;
-        this.jCacheCacheManager = jCacheCacheManager;
         this.noCacheManager = noCacheManager;
     }
 
@@ -77,7 +73,6 @@ public class CustomCacheResolver implements CacheResolver {
             case HAZEL -> hazelCastCacheManager;
             case COMPOSITE -> compositeCacheManager;
             case MAP -> concurrentMapCacheManager;
-            case JCACHE -> jCacheCacheManager;
             default -> noCacheManager;
         };
     }

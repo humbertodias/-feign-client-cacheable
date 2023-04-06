@@ -3,13 +3,15 @@
 result(){
   delay=$1
   array=( 999 9999 99999 999999 9999999 )
-  caches=( redisCacheManager hazelCastCacheManager simpleCacheManager caffeineCacheManager compositeCacheManager concurrentMapCacheManager jCacheCacheManager noOpCacheManager)
+  caches=( redisCacheManager hazelCastCacheManager simpleCacheManager caffeineCacheManager compositeCacheManager concurrentMapCacheManager noOpCacheManager)
   for amount in "${array[@]}"
   do
       for cacheManager in "${caches[@]}"
       do
-        echo "Generating result of $amount with $delay delay and cacheManager $cacheManager"
-        time curl -s "http://localhost:9191/api/faker?amount=$amount&delay=$delay&cacheManager=$cacheManager" > "$amount-$cacheManager.json"
+        echo "Sync $cacheManager with $amount and $delay delay"
+        time curl -s "http://localhost:9090/demo/person-sync?amount=$amount&delay=$delay&cacheManager=$cacheManager" > "sync-$amount-$cacheManager.json"
+        echo "ASync $cacheManager with $amount and $delay delay"
+        time curl -s "http://localhost:9090/demo/person-async?amount=$amount&delay=$delay&cacheManager=$cacheManager" > "async-$amount-$cacheManager.json"
       done
   done
 
@@ -32,4 +34,4 @@ wait_health
 
 time result 0
 
-docker-compose down -v
+#docker-compose down -v

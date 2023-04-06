@@ -23,8 +23,8 @@ ext {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-//	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+//	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation project(':common')
 	implementation 'org.springframework:spring-context-indexer'
 	implementation 'org.springframework.boot:spring-boot-actuator'
@@ -36,11 +36,13 @@ dependencies {
 	implementation 'io.github.openfeign:feign-httpclient:12.1'
 
 	// jaeger
-	//implementation 'io.opentracing.contrib:opentracing-spring-jaeger-web-starter:3.3.1'
-	//implementation 'io.github.openfeign.opentracing:feign-opentracing:0.4.1'
+	implementation 'io.opentracing.contrib:opentracing-spring-jaeger-web-starter:3.3.1'
+	implementation 'io.github.openfeign.opentracing:feign-opentracing:0.4.1'
 
 	// cache
 	implementation "org.springframework.boot:spring-boot-starter-cache"
+	// JSR-107 API
+	implementation "javax.cache:cache-api"
 
 	// redis
 	implementation 'org.springframework.data:spring-data-redis'

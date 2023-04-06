@@ -1,4 +1,4 @@
-package com.example.demo.config;
+package com.example.demo.config.cache;
 
 import java.util.Arrays;
 
@@ -10,7 +10,6 @@ public enum CacheManagerType {
     HAZEL("hazelCastCacheManager"),
     COMPOSITE("compositeCacheManager"),
     MAP("concurrentMapCacheManager"),
-    JCACHE("jCacheCacheManager"),
     NOOP("noOpCacheManager");
 
     private final String name;

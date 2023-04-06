@@ -48,5 +48,3 @@ cache:
   hazelCastClusterName: dev
   expirations:
     person: 5m
-
-

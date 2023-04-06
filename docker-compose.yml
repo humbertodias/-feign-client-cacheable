@@ -19,8 +19,7 @@ services:
     depends_on:
       redis:
         condition: service_healthy
-    networks:
-      - spring-cloud-network
+
   server:
     build:
       context: .
@@ -31,8 +30,6 @@ services:
       - JAEGER_HOST=jaeger
       - JAEGER_ENABLE=true
       - SPRING_PROFILES_ACTIVE=docker
-    networks:
-      - spring-cloud-network
 
   jaeger:
     image: jaegertracing/all-in-one:latest
@@ -44,8 +41,6 @@ services:
       - "16686:16686"
       - "14268:14268"
       - "9411:9411"
-    networks:
-      - spring-cloud-network
 
   redis:
     image: redis:6.2-alpine
@@ -58,8 +53,6 @@ services:
       - "6379:6379"
     volumes:
       - cache:/data
-    networks:
-      - spring-cloud-network
 
   redis-commander:
     image: rediscommander/redis-commander:latest
@@ -71,15 +64,12 @@ services:
       - REDIS_PASSWORD=password
     ports:
       - "8081:8081"
-    networks:
-      - spring-cloud-network
 
   hazelcast:
     image: hazelcast/hazelcast
     ports:
       - "5701:5701"
-    networks:
-      - spring-cloud-network
+
   management-center:
     image: hazelcast/management-center
     ports:
@@ -87,12 +77,6 @@ services:
     environment:
       - MC_DEFAULT_CLUSTER=dev
       - MC_DEFAULT_CLUSTER_MEMBERS=hazelcast
-    networks:
-      - spring-cloud-network
-
-networks:
-  spring-cloud-network:
-    driver: bridge
 
 volumes:
   cache:

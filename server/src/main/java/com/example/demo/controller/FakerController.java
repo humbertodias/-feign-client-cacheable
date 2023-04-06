@@ -20,10 +20,12 @@ public class FakerController {
     }
 
     @GetMapping("faker")
-    List<PersonDto> getRandom(@RequestParam(value = "amount", defaultValue = "10", required = false) int amount, @RequestParam(value = "delay", defaultValue = "0", required = false) int delay) throws InterruptedException{
+    List<PersonDto> getRandom(@RequestParam(value = "amount", defaultValue = "10", required = false) int amount,
+                              @RequestParam(value = "delay", defaultValue = "0", required = false) int delay,
+                              @RequestParam(value = "cacheManager", defaultValue = "noOpCacheManager", required = false) String cacheManager)
+            throws InterruptedException{
         Thread.sleep(delay);
         return personService.getRandom(amount);
     }
-
 
 }

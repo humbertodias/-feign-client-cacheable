@@ -14,6 +14,8 @@ public class CacheLogInterceptor extends CacheInterceptor {
 
     private final ObjectMapper objectMapper = SerializerUtil.objectMapper();
 
+    private int maxLength = 1024;
+
     @Override
     protected Cache.ValueWrapper doGet(Cache cache, Object key) {
         doLog("doGet", cache, key, null);
@@ -26,20 +28,29 @@ public class CacheLogInterceptor extends CacheInterceptor {
         super.doPut(cache, key, result);
     }
 
+    private String limit(String text) {
+        return text != null && text.length() > maxLength ?
+                text.substring(0, maxLength - 3) + "..." :
+                text;
+    }
+
     private void doLog(String method, Cache cache, Object key, Object result) {
         final Object value = cache.get(key);
         final String cacheKey = key(key);
-        final String cacheValue = value(value);
+        final String cacheValue = limit(value(value));
         log.info("Cache.{} name {} key {} value {} result {}", method, cache.getName(), cacheKey, cacheValue, result);
     }
 
     @SneakyThrows
     private String key(Object key) {
+        if (key == null) return null;
         return Objects.toString(key);
     }
 
     @SneakyThrows
     private String value(Object object) {
+        if (object == null) return null;
         return objectMapper.writeValueAsString(object);
     }
+
 }
