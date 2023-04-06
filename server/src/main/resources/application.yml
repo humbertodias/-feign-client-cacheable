@@ -11,8 +11,6 @@ logging:
           filter:
             CommonsRequestLoggingFilter: DEBUG
 server:
-  compression:
-    enabled: 'true'
   port: '9191'
 opentracing:
   jaeger:
