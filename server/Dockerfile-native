@@ -1,0 +1,37 @@
+#syntax=docker/dockerfile:1
+
+FROM debian as graalvm
+ARG GRAALVM_JAVA_VERSION=22.3.1.r17-grl
+SHELL ["/bin/bash", "-c"]
+# For SDKMAN to work we need unzip & zip
+RUN apt update -y && apt install unzip zip curl build-essential libz-dev zlib1g-dev -y
+RUN \
+    # Install SDKMAN
+    curl -sk "https://get.sdkman.io" | bash  ; \
+    source $HOME/.sdkman/bin/sdkman-init.sh ; \
+    sdk install java $GRAALVM_JAVA_VERSION ; \
+    sdk install gradle ; \
+    # Install GraalVM Native Image
+    gu install native-image  ; \
+    gradle --version ; \
+    native-image --version
+
+FROM graalvm as build
+SHELL ["/bin/bash", "-c"]
+
+ADD . /build
+WORKDIR /build
+RUN source $HOME/.sdkman/bin/sdkman-init.sh && bash compile-native-server.sh
+
+# We use a Docker multi-stage build here in order to only take the compiled native Spring Boot App from the first build container
+FROM debian:stable-slim as runtime
+ENV PORT=9191
+#ENV DEBIAN_FRONTEND noninteractive
+#RUN apt update -y && \
+#    apt install locales -y && \
+#    locale-gen pt_BR.UTF-8 UTF-8 && \
+#    update-locale
+# Add Spring Boot Native app spring-boot-graal to Container
+COPY --from=build "/build/server/build/native/server" server
+# Fire up our Spring Boot Native app by default
+CMD [ "sh", "-c", "./server -Dserver.port=$PORT" ]

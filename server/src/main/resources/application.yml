@@ -1,0 +1,22 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,httptrace
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          filter:
+            CommonsRequestLoggingFilter: DEBUG
+server:
+  compression:
+    enabled: 'true'
+  port: '9191'
+opentracing:
+  jaeger:
+    service-name: server
+    enabled: ${JAEGER_ENABLE:false}
+    udp-sender:
+      host: ${JAEGER_HOST:localhost}

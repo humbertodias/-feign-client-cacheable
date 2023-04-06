@@ -1,0 +1,58 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,httptrace
+feign:
+  client:
+    config:
+      person-client:
+        loggerLevel: headers
+  compression:
+    request:
+      enabled: 'true'
+      min-request-size: '2048'
+      mime-types: text/xml,application/xml,application/json
+    response:
+      enabled: 'true'
+person:
+  client:
+    host: http://localhost:9191
+opentracing:
+  jaeger:
+    service-name: client
+    enabled: false
+    udp-sender:
+      host: localhost
+server:
+  port: '9090'
+logging:
+  level:
+    com:
+      example:
+        demo:
+          client: DEBUG
+    org:
+      springframework:
+        cache: trace
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+  cloud:
+    config:
+      enabled: false
+
+cache:
+  ttl: 5m
+  redisHost: localhost
+  redisPort: 6379
+  redisPassword: password
+  hazelCastHost: localhost
+  hazelCastPort: 5701
+  hazelCastClusterName: dev
+  expirations:
+    person: 5m
+
+
