@@ -16,6 +16,9 @@ services:
       - REDIS_PORT=6379
       - REDIS_PASSWORD=password
       - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      redis:
+        condition: service_healthy
     networks:
       - spring-cloud-network
   server:
@@ -43,10 +46,14 @@ services:
       - "9411:9411"
     networks:
       - spring-cloud-network
+
   redis:
     image: redis:6.2-alpine
     restart: always
     command: redis-server --save 20 1 --loglevel warning --requirepass password
+    healthcheck:
+      test: [ "CMD-SHELL", "redis-cli -a password ping | grep PONG" ]
+      # docker inspect --format "{{json .State.Health }}" containerId  | jq
     ports:
       - "6379:6379"
     volumes:

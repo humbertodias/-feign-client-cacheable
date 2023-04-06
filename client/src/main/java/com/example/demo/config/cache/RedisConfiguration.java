@@ -1,10 +1,8 @@
 package com.example.demo.config.cache;
 
 import com.example.demo.interceptor.CacheLogInterceptor;
-import com.example.demo.util.SerializerUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.AnnotationCacheOperationSource;
 import org.springframework.cache.interceptor.CacheInterceptor;
 import org.springframework.cache.interceptor.CacheOperationSource;
@@ -16,13 +14,13 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair;
 
 @Slf4j
 @Configuration
@@ -33,8 +31,8 @@ public class RedisConfiguration {
         return RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(ttl)
                 .disableCachingNullValues()
-                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(keySerializer()))
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(valueSerializer()));
+                .serializeKeysWith(SerializationPair.fromSerializer(keySerializer()))
+                .serializeValuesWith(SerializationPair.fromSerializer(valueSerializer()));
     }
 
     private RedisSerializer<String> keySerializer() {
@@ -42,21 +40,14 @@ public class RedisConfiguration {
     }
 
     private RedisSerializer<Object> valueSerializer() {
-//        return RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.json());
-        RedisSerializer redisSerializer = new GenericJackson2JsonRedisSerializer(SerializerUtil.objectMapper());
-        return redisSerializer;
-    }
-
-
-    public RedisCacheConfiguration redisCacheConfiguration(CacheProperties properties) {
-        return createCacheConfiguration(properties.getTtl());
+        return RedisSerializer.json();
     }
 
     @Bean
     public LettuceConnectionFactory redisConnectionFactory(CacheProperties properties) {
         log.info("Redis (/lettuce) configuration enabled. With cache timeout {}", properties.getTtl());
 
-        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+        final RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
         redisStandaloneConfiguration.setHostName(properties.getRedisHost());
         redisStandaloneConfiguration.setPort(properties.getRedisPort());
         redisStandaloneConfiguration.setPassword(properties.getRedisPassword());
@@ -75,7 +66,7 @@ public class RedisConfiguration {
 
         final RedisCacheManager rcm = RedisCacheManager
                 .builder(redisConnectionFactory)
-                .cacheDefaults(redisCacheConfiguration(properties))
+                .cacheDefaults(createCacheConfiguration(properties.getTtl()))
                 .withInitialCacheConfigurations(cacheConfigurations)
                 .build();
         rcm.setTransactionAware(true);
