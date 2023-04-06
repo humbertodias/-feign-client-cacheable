@@ -4,7 +4,10 @@ import com.example.demo.config.cache.CacheProperties;
 import com.hazelcast.spring.cache.HazelcastCacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.cache.interceptor.CacheResolver;
+import org.springframework.cache.jcache.JCacheCacheManager;
+import org.springframework.cache.support.CompositeCacheManager;
 import org.springframework.cache.support.NoOpCacheManager;
 import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
@@ -21,8 +24,19 @@ public class CustomCacheManager {
                                              CaffeineCacheManager caffeineCacheManager,
                                              HazelcastCacheManager hazelCastCacheManager,
                                              SimpleCacheManager simpleCacheManager,
+                                             CompositeCacheManager compositeCacheManager,
+                                             ConcurrentMapCacheManager concurrentMapCacheManager,
+                                             JCacheCacheManager jCacheCacheManager,
                                              NoOpCacheManager noCacheManager) {
-        return new CustomCacheResolver(cacheProperties, redisCacheManager, caffeineCacheManager, hazelCastCacheManager, simpleCacheManager, noCacheManager);
+        return new CustomCacheResolver(cacheProperties,
+                redisCacheManager,
+                caffeineCacheManager,
+                hazelCastCacheManager,
+                simpleCacheManager,
+                compositeCacheManager,
+                concurrentMapCacheManager,
+                jCacheCacheManager,
+                noCacheManager);
     }
 
 }

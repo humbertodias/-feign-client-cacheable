@@ -3,7 +3,7 @@
 result(){
   delay=$1
   array=( 999 9999 99999 999999 9999999 )
-  caches=( redisCacheManager hazelCastCacheManager simpleCacheManager caffeineCacheManager noCacheManager)
+  caches=( redisCacheManager hazelCastCacheManager simpleCacheManager caffeineCacheManager compositeCacheManager concurrentMapCacheManager jCacheCacheManager noOpCacheManager)
   for amount in "${array[@]}"
   do
       for cacheManager in "${caches[@]}"
