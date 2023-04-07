@@ -20,7 +20,11 @@ services:
       - HAZELCAST_CLUSTERNAME=dev
       - CACHE_EXPIRATIONS_PERSON=1s
       - XMS=50M
-      - XMX=2G
+      - XMX=8G
+    deploy:
+      resources:
+        limits:
+          memory: 8g
     depends_on:
       redis:
         condition: service_healthy
