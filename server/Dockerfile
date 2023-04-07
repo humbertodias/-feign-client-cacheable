@@ -12,6 +12,7 @@ ENV XMX=1G
 CMD java \
 -Xms$XMS -Xmx$XMX \
 -XX:+ExitOnOutOfMemoryError \
+-XX:+UseZGC \
 -Djava.rmi.server.hostname=0.0.0.0 \
 -Dcom.sun.management.jmxremote=true \
 -Dcom.sun.management.jmxremote.port=5151 \
