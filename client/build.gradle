@@ -27,9 +27,6 @@ dependencies {
 	implementation 'org.springframework:spring-context-indexer'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-//	implementation 'org.springframework.cloud:spring-cloud-starter-config'
-//	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
-
 	// feign
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
@@ -46,11 +43,12 @@ dependencies {
 	implementation 'org.springframework.data:spring-data-redis'
 	implementation "io.lettuce:lettuce-core"
 
+
 	// Caffeine
 	implementation "com.github.ben-manes.caffeine:caffeine"
 
 	// Hazelcast
-	implementation 'com.hazelcast:hazelcast-all:4.2.7'
+	implementation 'com.hazelcast:hazelcast-spring:5.2.3'
 
 	// https://projectlombok.org
 	implementation 'org.projectlombok:lombok'

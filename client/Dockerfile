@@ -6,8 +6,8 @@ RUN gradle :client:build --parallel
 FROM eclipse-temurin:17-jdk-focal as run
 WORKDIR /app
 COPY --from=build /app/client/build/libs/client-*-SNAPSHOT.jar /app/client.jar
-ENV XMS=50M
-ENV XMX=1G
+ENV XMS=50m
+ENV XMX=256m
 CMD java \
 -Xms$XMS -Xmx$XMX \
 -XX:+ExitOnOutOfMemoryError \
