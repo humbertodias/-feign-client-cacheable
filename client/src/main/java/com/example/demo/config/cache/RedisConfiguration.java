@@ -1,6 +1,7 @@
 package com.example.demo.config.cache;
 
 import com.example.demo.interceptor.CacheLogInterceptor;
+import com.example.demo.util.SerializerUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.AnnotationCacheOperationSource;
@@ -14,6 +15,7 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.time.Duration;
@@ -40,7 +42,7 @@ public class RedisConfiguration {
     }
 
     private RedisSerializer<Object> valueSerializer() {
-        return RedisSerializer.json();
+        return new GenericJackson2JsonRedisSerializer(SerializerUtil.objectMapper());
     }
 
     @Bean

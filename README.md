@@ -4,7 +4,7 @@ Testing feign-client with dynamic cache managers: redis, hazel, simple, caffeine
 
 ## Result
 
-./result.sh
+./bruteforce.sh
 
 ```
 Waiting heath check...OK
