@@ -46,7 +46,7 @@ public class RedisConfiguration {
     }
 
     @Bean
-    public LettuceConnectionFactory redisConnectionFactory(CacheProperties properties) {
+    RedisConnectionFactory redisConnectionFactory(CacheProperties properties) {
         log.info("Redis (/lettuce) configuration enabled. With cache timeout {}", properties.getTtl());
 
         final RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
