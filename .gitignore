@@ -5,3 +5,5 @@ bin
 build
 *-sync.json
 *-async.json
+
+.vscode
