@@ -1,5 +1,6 @@
 package com.example.demo.interceptor;
 
+import com.example.demo.util.MemoryHelper;
 import com.example.demo.util.SerializerUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
@@ -39,6 +40,7 @@ public class CacheLogInterceptor extends CacheInterceptor {
         final String cacheKey = key(key);
         final String cacheValue = limit(value(value));
         log.debug("Cache.{} name {} key {} value {} result {}", method, cache.getName(), cacheKey, cacheValue, result);
+        log.info(MemoryHelper.info());
     }
 
     @SneakyThrows

@@ -27,7 +27,7 @@ public class HazelCastConfiguration  {
 
     @Bean
     public ClientConfig clientConfig() {
-        ClientConfig clientConfig = new ClientConfig();
+        final ClientConfig clientConfig = new ClientConfig();
         clientConfig.getNetworkConfig().addAddress(properties.getHazelCastAddress());
         clientConfig.setClusterName(properties.getHazelCastClusterName());
         addCacheConfigWithTTL(clientConfig);
@@ -46,7 +46,7 @@ public class HazelCastConfiguration  {
     }
 
     private NearCacheConfig buildCacheConfig(String name, Duration ttl) {
-        NearCacheConfig nearCacheConfig = new NearCacheConfig();
+        final NearCacheConfig nearCacheConfig = new NearCacheConfig();
         nearCacheConfig.setName(name);
         nearCacheConfig.setTimeToLiveSeconds((int)ttl.toSeconds());
         return nearCacheConfig;
@@ -54,10 +54,8 @@ public class HazelCastConfiguration  {
 
     @Bean("hazelCastCacheManager")
     public HazelcastCacheManager cacheManager(ClientConfig clientConfig) {
-        HazelcastInstance hazelcastInstance = HazelcastClient.newHazelcastClient(clientConfig);
+        final HazelcastInstance hazelcastInstance = HazelcastClient.newHazelcastClient(clientConfig);
         return new HazelcastCacheManager(hazelcastInstance);
     }
-
-
 
 }

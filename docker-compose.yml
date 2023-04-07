@@ -4,10 +4,10 @@ services:
     build:
       context: .
       dockerfile: client/Dockerfile
-    restart: on-failure
+#    restart: on-failure
     ports:
-      - "9090:9090"
-      - "5050:5050"
+      - "9090:9090" #http
+      - "5050:5050" #jmx
     environment:
       - CLIENT_HOST=server
       - JAEGER_HOST=jaeger
@@ -20,11 +20,7 @@ services:
       - HAZELCAST_CLUSTERNAME=dev
       - CACHE_EXPIRATIONS_PERSON=1s
       - XMS=50M
-      - XMX=1G
-    deploy:
-      resources:
-        limits:
-          memory: 1024m
+      - XMX=2G
     depends_on:
       redis:
         condition: service_healthy
@@ -35,19 +31,15 @@ services:
     build:
       context: .
       dockerfile: server/Dockerfile
-    restart: on-failure
+#    restart: on-failure
     ports:
-      - "9191:9191"
-      - "5151:5151"
+      - "9191:9191" #http
+      - "5151:5151" #jmx
     environment:
       - JAEGER_HOST=jaeger
       - JAEGER_ENABLE=true
       - XMS=50M
-      - XMX=1G
-    deploy:
-      resources:
-        limits:
-          memory: 1024m
+      - XMX=2G
 
   redis:
     image: redis:latest

@@ -2,6 +2,7 @@ package com.example.demo.config.cache;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +19,9 @@ public class MapConfiguration {
     }
 
     @Bean("concurrentMapCacheManager")
-    public ConcurrentMapCacheManager concurrentMapCacheManager() {
+    public ConcurrentMapCacheManager concurrentMapCacheManager(CaffeineCacheManager caffeineCacheManager) {
         final ConcurrentMapCacheManager cacheManager = new ConcurrentMapCacheManager();
-        // TODO: TTL
+        cacheManager.setCacheNames(caffeineCacheManager.getCacheNames());
         return cacheManager;
     }
 

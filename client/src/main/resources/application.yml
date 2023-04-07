@@ -23,13 +23,7 @@ server:
   port: '9090'
 logging:
   level:
-    com:
-      example:
-        demo:
-          client: DEBUG
-    org:
-      springframework:
-        cache: trace
+    root: info
 
 spring:
   main:
