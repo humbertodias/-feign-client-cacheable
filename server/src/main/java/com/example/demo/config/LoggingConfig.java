@@ -12,9 +12,9 @@ public class LoggingConfig {
         final CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter();
         loggingFilter.setIncludeClientInfo(true);
         loggingFilter.setIncludeQueryString(true);
-        loggingFilter.setIncludePayload(true);
         loggingFilter.setIncludeHeaders(true);
-        loggingFilter.setMaxPayloadLength(32768);
+        loggingFilter.setIncludePayload(true);
+        loggingFilter.setMaxPayloadLength(1024);
         return loggingFilter;
     }
 }
