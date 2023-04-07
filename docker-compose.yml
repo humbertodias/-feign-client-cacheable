@@ -4,8 +4,10 @@ services:
     build:
       context: .
       dockerfile: client/Dockerfile
+    restart: on-failure
     ports:
       - "9090:9090"
+      - "5050:5050"
     environment:
       - CLIENT_HOST=server
       - JAEGER_HOST=jaeger
@@ -17,7 +19,8 @@ services:
       - HAZELCAST_PORT=5701
       - HAZELCAST_CLUSTERNAME=dev
       - CACHE_EXPIRATIONS_PERSON=1s
-      - JAVA_OPTS="-Xms50M -Xmx1G"
+      - XMS=50M
+      - XMX=1G
     deploy:
       resources:
         limits:
@@ -32,13 +35,15 @@ services:
     build:
       context: .
       dockerfile: server/Dockerfile
+    restart: on-failure
     ports:
       - "9191:9191"
+      - "5151:5151"
     environment:
       - JAEGER_HOST=jaeger
       - JAEGER_ENABLE=true
-      - SPRING_PROFILES_ACTIVE=docker
-      - JAVA_OPTS="-Xms50M -Xmx1G"
+      - XMS=50M
+      - XMX=1G
     deploy:
       resources:
         limits:

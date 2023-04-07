@@ -29,7 +29,5 @@ wait_health(){
   printf "OK\n"
 }
 
-docker-compose up -d
 wait_health
-
 time result 0
