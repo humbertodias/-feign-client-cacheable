@@ -3,6 +3,7 @@ management:
     web:
       exposure:
         include: health,httptrace
+
 logging:
   level:
     org:

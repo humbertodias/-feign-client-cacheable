@@ -38,7 +38,7 @@ public class CacheLogInterceptor extends CacheInterceptor {
         final Object value = cache.get(key);
         final String cacheKey = key(key);
         final String cacheValue = limit(value(value));
-        log.info("Cache.{} name {} key {} value {} result {}", method, cache.getName(), cacheKey, cacheValue, result);
+        log.debug("Cache.{} name {} key {} value {} result {}", method, cache.getName(), cacheKey, cacheValue, result);
     }
 
     @SneakyThrows

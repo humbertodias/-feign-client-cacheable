@@ -3,3 +3,5 @@
 bin
 .idea
 build
+*-sync.json
+*-async.json

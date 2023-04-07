@@ -3,6 +3,7 @@ management:
     web:
       exposure:
         include: health,httptrace
+
 feign:
   client:
     config:
@@ -11,13 +12,13 @@ feign:
 
 person:
   client:
-    host: http://localhost:9191
+    host: http://${CLIENT_HOST:localhost}:9191
 opentracing:
   jaeger:
     service-name: client
-    enabled: false
+    enabled: ${JAEGER_ENABLE:false}
     udp-sender:
-      host: localhost
+      host: ${JAEGER_HOST:localhost}
 server:
   port: '9090'
 logging:
@@ -33,18 +34,17 @@ logging:
 spring:
   main:
     allow-bean-definition-overriding: true
-
   cloud:
     config:
       enabled: false
 
 cache:
   ttl: 5m
-  redisHost: localhost
-  redisPort: 6379
-  redisPassword: password
-  hazelCastHost: localhost
-  hazelCastPort: 5701
-  hazelCastClusterName: dev
+  redisHost: ${REDIS_HOST:localhost}
+  redisPort: ${REDIS_PORT:6379}
+  redisPassword: ${REDIS_PASSWORD:password}
+  hazelCastHost: ${HAZELCAST_HOST:localhost}
+  hazelCastPort: ${HAZELCAST_PORT:5701}
+  hazelCastClusterName: ${HAZELCAST_CLUSTERNAME:dev}
   expirations:
     person: 5m
