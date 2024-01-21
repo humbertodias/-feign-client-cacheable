@@ -2,11 +2,14 @@
 
 Testing feign-client with dynamic cache managers: redis, hazel, simple, caffeine and no cache
 
-## Result
+## Bruteforce
 
-./bruteforce.sh
-
+```shell
+make start && ./bruteforce.sh
 ```
+
+## Result
+```shell
 Waiting heath check...OK
 Generating result of 999 with 0 delay and cacheManager redisCacheManager
 
